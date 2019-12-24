@@ -2,14 +2,14 @@
   <Swiper class="swiper" :imgPath="imgSrc" @amendimgs="amendimgs" v-if="imgSrc.length!==0">
     <SwiperItem v-for="(item,index) in imgSrc" :key="index" :imgSrc="imgSrc">
       <a :href="link[index]">
-        <img :src="item">
+        <img :src="item" @load="imgload">
       </a>
     </SwiperItem>
   </Swiper>
 
 </template>
 
-<script>
+<script >
 import { Swiper, SwiperItem } from '@/components/common/swiper'
 export default {
   name: 'HomeSwiper',
@@ -22,7 +22,8 @@ export default {
   data() {
     return {
       imgSrc: [],
-      link: []
+      link: [],
+      isLoad: false
     }
   },
   methods: {
@@ -37,6 +38,13 @@ export default {
         this.link = this.banners.list.map(item => {
           return item.link
         })
+      }
+    },
+    // 监听图片是否已加载
+    imgload() {
+      if (!this.isLoad) {
+        this.$emit('SwiperImgIsOnLoad')
+        this.isLoad = true
       }
     }
   },
@@ -53,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 img {
   vertical-align: middle;
 }

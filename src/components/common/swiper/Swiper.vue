@@ -260,7 +260,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .swiper {
   position: relative;
   overflow: hidden;
