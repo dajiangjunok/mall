@@ -246,12 +246,19 @@ export default {
       this.imgSrc = this.imgPath
       this.points.length = this.imgSrc.length
     }
-    // 2. 判断完毕后 修改父组件中的 imgSrc，让页面的图片是否翻一倍
-    this.$emit('amendimgs', this.imgSrc)
 
     // 获取滑屏元素，滑屏区域的DOM元素
     this.swiper = document.querySelector('.swiper') //滑屏区域
     this.swiperSlide = document.querySelector('.swiper-slide') //滑屏元素
+
+    if (this.points.length == 1) {
+      // let toggleInfo = { needAuto: false, needCarousel: false, needPoint: false }
+      this.imgSrc.length = 1
+      this.$emit('toggle')
+      return
+    }
+    // 2. 判断完毕后 修改父组件中的 imgSrc，让页面的图片是否翻一倍
+    this.$emit('amendimgs', this.imgSrc)
   },
   beforeDestroy() {
     clearInterval(this.timer)

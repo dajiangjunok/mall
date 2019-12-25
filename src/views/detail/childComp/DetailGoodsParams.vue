@@ -12,7 +12,7 @@
       </tr>
     </table>
     <div class="info-img">
-      <img :src="itemParams.img" alt="">
+      <img :src="itemParams.img">
     </div>
   </div>
 </template>

@@ -12,7 +12,7 @@
       <span class="date">{{item.created|showDate}}</span>
       <span class="style">{{item.style}}</span>
       <div class="info-imgs" v-if='typeof comments[0].images!=="undefined"'>
-        <img :src="item" v-for="(item, index) in comments[0].images" :key='index'>
+        <img :src="item" v-for="(item, index) in comments[0].images" :key='index' @load='imgOnLoad'>
       </div>
     </div>
   </div>
@@ -22,6 +22,11 @@
 import { formatDate } from 'common/utils'
 export default {
   name: 'DetailComment',
+  data() {
+    return {
+      imgLoadCount: 0
+    }
+  },
   props: {
     comments: {
       type: Array,
@@ -34,6 +39,15 @@ export default {
     showDate: function(value) {
       let date = new Date(value * 1000)
       return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
+  methods: {
+    imgOnLoad() {
+      this.imgLoadCount++
+      if (this.imgLoadCount === this.comments[0].images.length) {
+        this.$emit('imgOnLoad')
+        this.imgLoadCount = 0
+      }
     }
   }
 }
@@ -82,8 +96,14 @@ export default {
   font-size: 12px;
   color: rgb(156, 156, 156);
 }
+.info-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
 .info-imgs img {
-  padding-top: 20px;
-  width: 100%;
+  padding-top: 10px;
+  margin-right: 3px;
+  height: 23vw;
 }
 </style>

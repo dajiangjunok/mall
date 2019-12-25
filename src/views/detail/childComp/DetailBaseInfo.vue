@@ -13,15 +13,15 @@
     </div>
     <div class="services">
       <div>
-        <img :src="goods.services[0].icon" alt="">
+        <img :src="goods.services[0].icon">
         <span>{{goods.services[0].name}}</span>
       </div>
       <div>
-        <img :src="goods.services[1].icon" alt="">
+        <img :src="goods.services[1].icon">
         <span>{{goods.services[1].name}}</span>
       </div>
       <div>
-        <img :src="goods.services[2].icon" alt="">
+        <img :src="goods.services[2].icon">
         <span>{{goods.services[2].name}}</span>
       </div>
     </div>

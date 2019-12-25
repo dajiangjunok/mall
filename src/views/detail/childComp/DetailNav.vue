@@ -13,6 +13,7 @@
 
 <script>
 import NavBar from 'components/common/navbar/NavBar'
+import { type } from 'os'
 
 export default {
   name: 'DetailNav',
@@ -25,6 +26,8 @@ export default {
   methods: {
     itemClick(index) {
       this.isActive = index
+      // 此处需要拿到滚动事件，这样我们就可以操作滚动到指定位置
+      this.$emit('itemClick', this.isActive)
     },
     backClick() {
       this.$router.go(-1)

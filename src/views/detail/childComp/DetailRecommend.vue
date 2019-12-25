@@ -3,7 +3,7 @@
     <h2>今日推荐</h2>
     <div class="sku-info">
       <a class="sku-info-item" href="http://item.meilishuo.com/detail/1kkf1di?acm=3.mce.2_4_1kkf1di.6011.0-41756.xSEtnr76nBiNW.sd_119_115-mid_6011-pos_0-lc_201" v-for='(item,index) in recommend' :key='index'>
-        <img :src="item.image" alt="">
+        <img :src="item.image" @load="imgLoad">
         <div>
           <div class="title">
             <p>{{item.title}}</p>
@@ -21,6 +21,20 @@
 <script>
 export default {
   name: 'DetailRecommend',
+  data() {
+    return {
+      imgLoadCount: 0
+    }
+  },
+  methods: {
+    imgLoad() {
+      this.imgLoadCount++
+      if (this.imgLoadCount === this.recommend.length) {
+        this.$emit('imgOnLoad')
+        this.imgLoadCount = 0
+      }
+    }
+  },
   props: {
     recommend: {
       type: Array,
