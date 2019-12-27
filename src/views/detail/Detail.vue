@@ -10,7 +10,11 @@
       <DetailComment :comments='comments' v-if='comments.length!==0' ref="comment" @imgOnLoad='imgOnLoad' />
       <DetailRecommend :recommend='recommend' v-if='isRecommendEmpty' ref="recommend" @imgOnLoad='imgOnLoad' />
     </Scroll>
-    <DetailBottomBar />
+    <!-- <Toast :isToastShow="isToastShow" :message='message' /> -->
+    <transition name="fade">
+      <BackTop @click.native="BackTopClick" v-show='isShowBack' />
+    </transition>
+    <DetailBottomBar @addCart='addCart' />
   </div>
 </template>
 
@@ -25,7 +29,10 @@ import DetailComment from './childComp/DetailComment'
 import DetailRecommend from './childComp/DetailRecommend'
 import DetailBottomBar from './childComp/DetailBottomBar'
 
-import Scroll from '../../components/common/scroll/Scroll'
+import BackTop from 'components/content/backtop/BackTop'
+
+import Scroll from 'components/common/scroll/Scroll'
+// import Toast from 'components/common/toast/Toast'
 
 import { getDetail, Goods, Shop, GoodsParams, getRecommend } from 'network/detail'
 
@@ -41,11 +48,27 @@ export default {
       itemParams: {},
       comments: [],
       recommend: {},
-      themeTopTs: []
+      themeTopTs: [],
+      isShowBack: false
     }
   },
   updated() {},
   methods: {
+    // 获取购物车中需展示的数据
+    addCart() {
+      const cartInfo = {
+        iid: this.iid,
+        title: this.goods.title,
+        img: this.topImages[0],
+        price: this.goods.realPrice,
+        desc: this.goods.desc
+      }
+      // 然后将数据存储到 vuex中,存储成功后弹出  toast
+      this.$store.dispatch('addCart', cartInfo).then(res => {
+        this.$toast.show('已成功加入购物车', 1500)
+      })
+    },
+
     imgOnLoad(index) {
       // 1.获取betterScroll 滚动的元素
       this.$refs.scroll.refresh()
@@ -69,18 +92,21 @@ export default {
         if (this.$refs.nav.isActive === index) {
           return
         }
-        if (-position.y > this.themeTopTs[index] && -position.y < this.themeTopTs[index + 1]) {
+        if (-position.y >= this.themeTopTs[index] && -position.y <= this.themeTopTs[index + 1]) {
           this.$refs.nav.isActive = index
-          console.log(index)
         } else if (
-          -position.y > this.themeTopTs[index] &&
+          -position.y >= this.themeTopTs[index] &&
           typeof this.themeTopTs[index + 1] === 'undefined'
         ) {
           this.$refs.nav.isActive = index
-          console.log(index)
         }
       })
+      this.isShowBack = Math.abs(position.y) > 1000
       // console.log(position.y)
+    },
+    // 返回顶部
+    BackTopClick() {
+      this.$refs.scroll.scrollTo(0, 0, 500)
     }
   },
   computed: {
@@ -110,6 +136,7 @@ export default {
     DetailComment,
     DetailRecommend,
     DetailBottomBar,
+    BackTop,
     Scroll
   },
   created() {
@@ -151,5 +178,14 @@ export default {
   height: calc(100vh - 93px);
   background-color: #fff;
   overflow: hidden;
+}
+
+/* 返回顶部动画效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+  opacity: 0;
 }
 </style>

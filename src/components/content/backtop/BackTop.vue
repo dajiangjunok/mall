@@ -11,7 +11,7 @@ export default {
 <style scoped>
 .back-top {
   position: fixed;
-  z-index: 3;
+  z-index: 999999999;
   bottom: 50px;
   right: 8px;
   width: auto;

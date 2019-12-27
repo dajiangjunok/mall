@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="right">
-      <div class="car">
+      <div class="car" @click='addToCar'>
         <p>加入购物车</p>
       </div>
       <div class="pay">
@@ -27,7 +27,16 @@
 
 <script>
 export default {
-  name: 'DetailBottomBar'
+  name: 'DetailBottomBar',
+
+  mounted() {},
+  methods: {
+    addToCar() {
+      // 需要获取加入购物车时候所要的数据
+      // 1图片，2标题，3 id 4价格
+      this.$emit('addCart')
+    }
+  }
 }
 </script>
 

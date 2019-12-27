@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+//   axios.get(url).then(function() => {})
 
 export function request(config) {
   const instance = axios.create({
