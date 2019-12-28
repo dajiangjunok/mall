@@ -1,6 +1,7 @@
 <template>
   <div class="goods-list-item" @click="showDetail">
-    <img v-lazy="goods.show.img" alt="" @load="imageLoad">
+    <img v-lazy="goods.show.img" @load="imageLoad" v-if='hasGoodsShow'>
+    <img v-lazy="goods.img" @load="imageLoad" v-else>
     <div>
       <div class="title">
         <span>{{goods.title}}</span>
@@ -21,6 +22,15 @@ export default {
       type: Object,
       default() {
         return {}
+      }
+    }
+  },
+  computed: {
+    hasGoodsShow() {
+      if (this.goods.show) {
+        return true
+      } else {
+        return false
       }
     }
   },

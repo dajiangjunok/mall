@@ -17,6 +17,8 @@ export default {
       }
     }
   },
+  mounted() {},
+  updated() {},
   components: {
     GoodsListItem
   }

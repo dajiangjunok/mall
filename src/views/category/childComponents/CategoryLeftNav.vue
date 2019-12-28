@@ -37,9 +37,9 @@ export default {
 <style scoped>
 .left-nav {
   position: relative;
-  flex: 1;
+  /* flex: 1; */
   /* width: 25%; */
-  height: calc(100vh - 49px - 44px);
+  /* height: calc(100vh - 49px - 44px); */
 }
 .left-nav ul {
   display: flex;

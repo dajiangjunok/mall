@@ -21,6 +21,8 @@ export default {
 
 <style scoped>
 .category-nav {
+  position: relative;
+  z-index: 9999999999;
   background-color: var(--color-tint);
   color: #fff;
   font-size: 17px;
